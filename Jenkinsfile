@@ -1,31 +1,19 @@
 pipeline {
     agent any
-
+    echo "current branch: $BRANCH_NAME"
     stages {
         stage ('Compile Stage') {
-
-            steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn clean compile'
-                }
+            when {
+                expression { $BRANCH_NAME =='master'}
             }
-        }
-
-        stage ('Testing Stage') {
-
             steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn test'
-                }
+                print("master")
             }
-        }
-
-
-        stage ('Deployment Stage') {
+            when {
+                expression { $BRANCH_NAME =='master'}
+            }
             steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn deploy'
-                }
+                print("trex")
             }
         }
     }
